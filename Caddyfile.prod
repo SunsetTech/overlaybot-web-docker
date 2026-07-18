@@ -1,0 +1,35 @@
+{$SITE_DOMAIN} {
+    tls {
+        dns route53 {
+            region {env.AWS_REGION}
+        }
+    }
+	
+	encode gzip zstd
+
+	handle /auth {
+		reverse_proxy backend:3131
+	}
+
+	handle /logout {
+		reverse_proxy backend:3131
+	}
+
+	handle /logout_everywhere {
+		reverse_proxy backend:3131
+	}
+
+	handle /viewer {
+		reverse_proxy backend:3131
+	}
+
+	handle /bot {
+		reverse_proxy backend:3131
+	}
+
+	handle {
+		root * /srv/www
+		try_files {path} /index.html
+		file_server
+	}
+}
